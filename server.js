@@ -1,6 +1,6 @@
-import config from 'dotenv';
+import { config } from 'dotenv';
 import express from 'express';
-import {router as hospitals} from './routes/hospitals';
+import { router as hospitals } from './routes/hospitals.js';
 
 //Load env vars
 config({path:'./config/config.env'});
