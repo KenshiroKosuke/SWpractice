@@ -2,6 +2,8 @@ import { config } from 'dotenv';
 import express from 'express';
 import { connectDB } from './config/db.js';
 import { router as hospitals } from './routes/hospitals.js';
+import { router as auth } from './routes/auth.js'
+import cookieParser from 'cookie-parser';
 
 //Load env vars
 config({path:'./config/config.env'});
@@ -12,10 +14,14 @@ connectDB();
 const app=express();
 
 // Body parser
-app.use(express.json())
+app.use(express.json());
+
+// Cookie parser
+app.use(cookieParser());
 
 // Route files
 app.use('/api/v1/hospitals',hospitals);
+app.use('/api/v1/auth',auth);
 
 app.get('/', (req, res) => {
     res.send(`<h1>Hello from express</h1>`);
