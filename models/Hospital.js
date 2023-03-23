@@ -32,6 +32,23 @@ const HospitalSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please add a region']
     }
+},{
+    toJSON: {virtuals: true},
+    toObject: {virtuals: true}
+});
+
+//Reverse populate with virtual
+HospitalSchema.virtual('appointments',{
+    ref: 'Appointment',
+    localField: '_id',
+    foreignField: 'hospital',
+    justOne: false
+})
+
+HospitalSchema.pre('remove',async function(next){
+    console.log(`removed appt from ${this._id}`);
+    await this.model('Appointment').deleteMany({hospital: this._id});
+    next();
 });
 
 export const Hospital = mongoose.model('Hospital',HospitalSchema);
