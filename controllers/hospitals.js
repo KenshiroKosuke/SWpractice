@@ -1,6 +1,7 @@
 //const Hospital = require("../models/Hospital.js");
 
 import { Hospital } from "../models/Hospital.js";
+import { VacCenter } from "../models/vacCenter.js";
 
 //@access public
 export async function getHospitals(req, res, next) {
@@ -61,6 +62,7 @@ export async function getHospitals(req, res, next) {
             data: hospitals
         });
     } catch (err) {
+        console.log('log1')
         res.status(400).json({ success: false })
     }
 }
@@ -69,10 +71,12 @@ export async function getHospital(req, res, next) {
     try {
         const hospital = await Hospital.findById(req.params.id);
         if (!hospital) {
+            console.log('log2')
             res.status(400).json({ success: false })
         }
         res.status(200).json({ success: true, data: hospital });
     } catch (err) {
+        console.log('log3')
         res.status(400).json({ success: false })
     }
 }
@@ -83,6 +87,7 @@ export async function createHospital(req, res, next) {
         const hospital = await Hospital.create(req.body);
         res.status(201).json({ success: true, data: hospital })
     } catch (err) {
+        console.log('log4')
         res.status(400).json({ success: false, message: err })
     }
 }
@@ -94,10 +99,12 @@ export async function updateHospital(req, res, next) {
             runValidators: true
         });
         if (!hospital) {
+            console.log('log5')
             res.status(400).json({ success: false })
         }
         res.status(200).json({ success: true, data: hospital });
     } catch (err) {
+        console.log('log6')
         res.status(400).json({ success: false })
     }
 }
@@ -113,4 +120,20 @@ export async function deleteHospital(req, res, next) {
     } catch (err) {
         res.status(400).json({ success: false })
     }
+}
+
+//@desc Get vaccine centers
+//@route GET /api/v1/hospitals/vacCenters/
+//@access Public
+export async function getVacCenters(req,res,next){
+    console.log('test vaccenters')
+    VacCenter.getAll((err,data)=>{
+        if (err) {
+            res.status(500).send({
+                message: err.message || "Some errors occurred while retrieving Vaccine Centers."
+            })
+        } else {
+            res.send(data)
+        }
+    })
 }
