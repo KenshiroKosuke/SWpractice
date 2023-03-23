@@ -3,6 +3,8 @@
 import { Hospital } from "../models/Hospital.js";
 import { VacCenter } from "../models/vacCenter.js";
 
+//@desc Get Hospital
+//@route GET /api/v1/hospitals/:id
 //@access public
 export async function getHospitals(req, res, next) {
     let query;
@@ -62,24 +64,27 @@ export async function getHospitals(req, res, next) {
             data: hospitals
         });
     } catch (err) {
-        console.log('log1')
         res.status(400).json({ success: false })
     }
 }
+
+//@desc Get Hospital
+//@route GET /api/v1/hospitals/:id
 //@access public
 export async function getHospital(req, res, next) {
     try {
         const hospital = await Hospital.findById(req.params.id);
         if (!hospital) {
-            console.log('log2')
             res.status(400).json({ success: false })
         }
         res.status(200).json({ success: true, data: hospital });
     } catch (err) {
-        console.log('log3')
         res.status(400).json({ success: false })
     }
 }
+
+//@desc Create Hospital
+//@route POST /api/v1/hospitals
 //@access private
 export async function createHospital(req, res, next) {
     console.log(req.body)
@@ -87,10 +92,12 @@ export async function createHospital(req, res, next) {
         const hospital = await Hospital.create(req.body);
         res.status(201).json({ success: true, data: hospital })
     } catch (err) {
-        console.log('log4')
         res.status(400).json({ success: false, message: err })
     }
 }
+
+//@desc Update Hospital
+//@route PUT /api/v1/hospitals/:id
 //@access private
 export async function updateHospital(req, res, next) {
     try {
@@ -99,15 +106,16 @@ export async function updateHospital(req, res, next) {
             runValidators: true
         });
         if (!hospital) {
-            console.log('log5')
             res.status(400).json({ success: false })
         }
         res.status(200).json({ success: true, data: hospital });
     } catch (err) {
-        console.log('log6')
         res.status(400).json({ success: false })
     }
 }
+
+//@desc Delete Hospital
+//@route DELETE /api/v1/hospitals/:id
 //@access private
 export async function deleteHospital(req, res, next) {
     try {
@@ -126,7 +134,6 @@ export async function deleteHospital(req, res, next) {
 //@route GET /api/v1/hospitals/vacCenters/
 //@access Public
 export async function getVacCenters(req,res,next){
-    console.log('test vaccenters')
     VacCenter.getAll((err,data)=>{
         if (err) {
             res.status(500).send({
